@@ -1,6 +1,6 @@
 # MarkelUnaiProgra
 
-# Librería PistonPy
+# Librería PyPiston
 
 Esta librería Python facilita la interacción con una API de búsqueda de información sobre coches, permitiendo gestionar datos de clientes, coches y reservas. Aquí se presenta un resumen de las clases clave y sus funciones.
 
