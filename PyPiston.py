@@ -22,7 +22,7 @@ class Cliente:
         self.mayoria_edad = self.comprobacion_edad()
         self.nombre = nombre
         self.residencia = residencia
-        self.permiso = permiso
+        self._permiso = permiso
 
     def comprobacion_edad(self):
         """
@@ -41,7 +41,7 @@ class Cliente:
 
         :param permiso_nuevo: El permiso a añadir.
         """
-        self.permiso.append(permiso_nuevo)
+        self._permiso.append(permiso_nuevo)
 
     def show_cliente(self):
         """
@@ -50,7 +50,7 @@ class Cliente:
         :return: None
         """
         print("Datos del cliente:\nNOMBRE: {}\nEDAD: {}\nRESIDENCIA: {}\nPERMISO(S): {}\nMAYOR DE EDAD: {}".format(
-            self.nombre, self.edad, self.residencia, self.permiso, "SI" if self.mayoria_edad else "NO"))
+            self.nombre, self.edad, self.residencia, self._permiso, "SI" if self.mayoria_edad else "NO"))
 
 class ClienteExt(Cliente):
     """Representa un cliente extendido con información adicional."""
@@ -65,7 +65,7 @@ class ClienteExt(Cliente):
         :param compromiso_medioambiental: El nivel de compromiso medioambiental del cliente.
         :param nivel_cliente: El nivel del cliente.
         """
-        super().__init__(cliente.edad, cliente.nombre, cliente.residencia, cliente.permiso)
+        super().__init__(cliente.edad, cliente.nombre, cliente.residencia, cliente._permiso)
         self.vigencia_permiso = datetime.strptime(str(vigencia_permiso), "%Y-%m-%d").date()
         self.necesidades_especiales = necesidades_especiales
         self.compromiso_medioambiental = compromiso_medioambiental
@@ -188,7 +188,7 @@ class Reserva(ClienteExt, Coche):
         :param num_resultado_reservado: El número de resultado de la búsqueda de coche a reservar (opcional).
         """
         super().__init__(cliente, clientext.vigencia_permiso, clientext.necesidades_especiales, clientext.compromiso_medioambiental, clientext.nivel_cliente)
-        Coche.__init__(self, coche.make, coche.model, coche.fuel_type, coche.year, coche.transmision, coche.cylinders)
+        Coche.__init__(self, coche.make, coche.model, coche.fuel_type, coche.year, coche.transmission, coche.cylinders)
         self.num_resultado_coche_reservado = num_resultado_reservado
 
     def realizar_reserva(self, num_resultado_reserva):
@@ -206,7 +206,7 @@ class Reserva(ClienteExt, Coche):
         
         try:
             if 1 <= int(num_resultado_reserva) <= len(coche.inform_busqueda_coche):
-                if "B" in self.permiso and self.mayoria_edad:
+                if "B" in self._permiso and self.mayoria_edad:
                     print("Reserva realizada para el coche identificado con el Nº", num_resultado_reserva)
                 else:
                     print("El cliente no cumple los requisitos para realizar la reserva.")
@@ -218,8 +218,8 @@ class Reserva(ClienteExt, Coche):
 if __name__ == "__main__":
     cliente = Cliente(23, "Duranito", "ArrigoCity")
     print(cliente.comprobacion_edad())
-    print(cliente.añadir_permiso("C1"))
-    #print(cliente.permiso)
+    print(cliente.añadir_permiso("B"))
+    #print(cliente._permiso)
     #cliente.show_cliente()
     clientext = ClienteExt(cliente, "2027-01-27", False, "Alto", "Alto")
     print(clientext.es_vigente())
